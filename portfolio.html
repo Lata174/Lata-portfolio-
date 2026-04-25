@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Lata</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Bricolage+Grotesque:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #08080f;
+    --bg2: #0d0d18;
+    --surface: #111120;
+    --border: #1e1e35;
+    --accent: #ff6b2b;
+    --accent2: #1e90ff;
+    --text: #f0eefc;
+    --muted: #5a576e;
+    --font-display: 'Bricolage Grotesque', sans-serif;
+    --font-body: 'Bricolage Grotesque', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* GLOW ORBS */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .orb-1 { width: 500px; height: 500px; background: rgba(255,107,43,0.07); top: -150px; right: -100px; }
+  .orb-2 { width: 400px; height: 400px; background: rgba(30,144,255,0.07); bottom: 10%; left: -100px; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.4rem 6%;
+    background: rgba(8,11,16,0.7);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.2rem;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* SECTIONS */
+  section { position: relative; z-index: 1; }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 0 6%;
+    padding-top: 5rem;
+  }
+  .hero-inner { max-width: 760px; }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 0.35rem 1rem;
+    font-size: 0.78rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    background: rgba(255,107,43,0.06);
+    animation: fadeUp 0.7s ease both;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: blink 1.5s infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2.8rem, 7.5vw, 5.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+  h1 .hello {
+    display: block;
+    font-weight: 300;
+    font-size: 0.45em;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.3rem;
+  }
+  h1 .name {
+    display: block;
+    color: var(--text);
+  }
+  h1 .line2 {
+    display: block;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 0.65em;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-top: 0.2rem;
+  }
+  .hero-sub {
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 480px;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    margin-top: 2.5rem;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.8rem 2rem;
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.25s;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #000;
+  }
+  .btn-primary:hover { background: #ff8c5a; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,107,43,0.4); }
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 6%;
+    display: flex; align-items: center; gap: 0.7rem;
+    color: var(--muted); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+    animation: fadeUp 0.7s 0.5s ease both;
+  }
+  .scroll-line {
+    width: 40px; height: 1px; background: var(--border);
+    position: relative; overflow: hidden;
+  }
+  .scroll-line::after {
+    content: '';
+    position: absolute; left: -100%; top: 0;
+    width: 100%; height: 100%;
+    background: var(--accent);
+    animation: slide 2s infinite;
+  }
+  @keyframes slide { to { left: 100%; } }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ABOUT */
+  #about {
+    padding: 7rem 6%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    border-top: 1px solid var(--border);
+  }
+  .section-label {
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 28px;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, var(--text) 60%, rgba(232,237,242,0.5));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .about-text { color: var(--muted); font-size: 1rem; line-height: 1.8; }
+  .about-text p + p { margin-top: 1rem; }
+
+  .stats-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: border-color 0.3s;
+  }
+  .stat-card:hover { border-color: var(--accent); }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label { font-size: 0.85rem; color: var(--muted); margin-top: 0.4rem; }
+
+  /* SECTION HIGHLIGHT */
+  section:not(#hero) {
+    position: relative;
+  }
+  section:not(#hero)::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 6%; right: 6%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent);
+    opacity: 0.4;
+  }
+
+  /* EDUCATION */
+  #education {
+    padding: 7rem 6%;
+    border-top: 1px solid var(--border);
+  }
+  .education-header { margin-bottom: 3rem; }
+  .edu-timeline { display: flex; flex-direction: column; gap: 1.5rem; max-width: 780px; }
+  .edu-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem 2rem 2rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .edu-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--accent), var(--accent2));
+  }
+  .edu-card:hover { border-color: rgba(0,229,255,0.3); transform: translateX(4px); box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
+  .edu-degree {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .edu-school {
+    color: var(--accent);
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  .edu-meta {
+    display: flex; gap: 1.5rem; flex-wrap: wrap;
+    font-size: 0.8rem; color: var(--muted);
+  }
+  .edu-meta span { display: flex; align-items: center; gap: 0.3rem; }
+
+  /* SKILLS */
+  #skills {
+    padding: 7rem 6%;
+    border-top: 1px solid var(--border);
+  }
+  .skills-header { text-align: center; margin-bottom: 4rem; }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .skill-pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.25s;
+    cursor: default;
+  }
+  .skill-pill:hover {
+    border-color: var(--accent);
+    background: rgba(0,229,255,0.05);
+    transform: translateY(-3px);
+    color: var(--accent);
+  }
+  .skill-icon { font-size: 1.6rem; margin-bottom: 0.5rem; display: block; }
+
+  /* PROJECTS */
+  #projects {
+    padding: 7rem 6%;
+    border-top: 1px solid var(--border);
+  }
+  .projects-header { margin-bottom: 3rem; }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+  .project-card:hover { border-color: rgba(0,229,255,0.3); transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+  .project-card:hover::before { transform: scaleX(1); }
+
+  .project-num {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+  }
+  .project-title {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.7rem;
+  }
+  .project-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tag {
+    font-size: 0.72rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 100px;
+    background: rgba(255,107,43,0.08);
+    color: var(--accent);
+    border: 1px solid rgba(255,107,43,0.25);
+    letter-spacing: 0.05em;
+  }
+
+  /* CONTACT */
+  #contact {
+    padding: 7rem 6%;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+  .contact-inner { max-width: 560px; margin: 0 auto; }
+  .contact-sub { color: var(--muted); margin: 1rem 0 2.5rem; font-size: 1rem; }
+  .contact-email {
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-weight: 700;
+    color: var(--text);
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 2.5rem;
+    transition: color 0.2s;
+  }
+  .contact-email:hover { color: var(--accent); }
+  .social-row { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+  .social-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.25s;
+  }
+  .social-link:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 6%;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.8rem; color: var(--muted);
+    position: relative; z-index: 1;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 5%; }
+    .nav-links { gap: 1.5rem; }
+    #about { grid-template-columns: 1fr; gap: 3rem; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">LG<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">B.Tech CSE — 2nd Semester @ GBU</div>
+    <h1>
+      <span class="hello">— Hello, I'm</span>
+      <span class="name">Lata</span>
+      <span class="line2">Code. Create. Grow.</span>
+    </h1>
+    <p class="hero-sub">
+      A Computer Science & Engineering student at Gautam Buddha University — passionate about technology, problem-solving, and building things from scratch.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View My Work →</a>
+      <a href="#contact" class="btn btn-outline">Let's Connect</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll to explore
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="reveal">
+    <div class="section-label">About Me</div>
+    <h2>Curious learner, future builder.</h2>
+    <div class="about-text">
+      <p>Hi! I'm Lata, a B.Tech Computer Science & Engineering student at <strong style="color:var(--text)">Gautam Buddha University, Greater Noida</strong> — currently in my 2nd semester.</p>
+      <p>I'm at the beginning of my journey in tech, eager to learn, experiment, and grow. I love exploring new technologies and turning ideas into real projects. Every day is a new chance to learn something amazing!</p>
+    </div>
+  </div>
+  <div class="stats-grid reveal">
+    <div class="stat-card">
+      <div class="stat-num">2nd</div>
+      <div class="stat-label">Semester @ GBU</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">CSE</div>
+      <div class="stat-label">B.Tech Branch</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">2</div>
+      <div class="stat-label">Projects Built</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">🚀</div>
+      <div class="stat-label">Learning Every Day</div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="education-header reveal">
+    <div class="section-label">My Journey</div>
+    <h2>Education</h2>
+  </div>
+  <div class="edu-timeline">
+    <div class="edu-card reveal">
+      <div class="edu-degree">B.Tech — Computer Science & Engineering</div>
+      <div class="edu-school">🏛️ Gautam Buddha University, Greater Noida</div>
+      <div class="edu-meta">
+        <span>📅 2024 — Present</span>
+        <span>📖 2nd Semester</span>
+        <span>📍 Greater Noida, U.P.</span>
+      </div>
+      <p style="margin-top:1rem; font-size:0.9rem; color:var(--muted); line-height:1.7;">
+        Currently pursuing my Bachelor's in Computer Science & Engineering at one of UP's prominent state universities. Here I am building a strong foundation in programming, mathematics, and engineering principles. My journey so far includes hands-on hardware projects like robotics and fire-safety systems, and I'm actively growing my skills in C and Java.
+      </p>
+    </div>
+    <div class="edu-card reveal">
+      <div class="edu-degree">Senior Secondary (12th) — PCM (Physics, Chemistry, Maths)</div>
+      <div class="edu-school">🏫 Police Modern School, Bareilly</div>
+      <div class="edu-meta">
+        <span>📅 Completed 2024</span>
+        <span>📍 Bareilly, U.P.</span>
+      </div>
+      <p style="margin-top:1rem; font-size:0.9rem; color:var(--muted); line-height:1.7;">
+        Completed my senior secondary education with Physics, Chemistry, and Mathematics (PCM) from Police Modern School, Bareilly — a well-known institution in the city. Studying PCM gave me a strong analytical and logical thinking base, which now helps me greatly in understanding computer science concepts and problem-solving.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="skills-header reveal">
+    <div class="section-label">Tech Stack</div>
+    <h2>Tools I Work With</h2>
+  </div>
+  <div class="skills-grid reveal" style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); max-width: 500px;">
+    <div class="skill-pill"><span class="skill-icon">💻</span>C Programming</div>
+    <div class="skill-pill"><span class="skill-icon">☕</span>Java</div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="projects-header reveal">
+    <div class="section-label">My Work</div>
+    <h2>Featured Projects</h2>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card reveal">
+      <div class="project-num">01 — PROJECT</div>
+      <div class="project-title">Automatic Fire Extinguisher</div>
+      <p class="project-desc">A hardware project that automatically detects fire using sensors and triggers an extinguishing mechanism — no human intervention needed. Built to demonstrate real-world safety automation.</p>
+      <div class="project-tags">
+        <span class="tag">Arduino</span>
+        <span class="tag">Fire Sensor</span>
+        <span class="tag">Servo Motor</span>
+        <span class="tag">Embedded Systems</span>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-num">02 — PROJECT</div>
+      <div class="project-title">Obstacle Avoiding Car</div>
+      <p class="project-desc">A self-navigating robot car that uses ultrasonic sensors to detect and avoid obstacles in real-time, moving autonomously without any manual control.</p>
+      <div class="project-tags">
+        <span class="tag">Arduino</span>
+        <span class="tag">Ultrasonic Sensor</span>
+        <span class="tag">DC Motors</span>
+        <span class="tag">Robotics</span>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-num">03 — LEARNING</div>
+      <div class="project-title">Currently Exploring...</div>
+      <p class="project-desc">Strengthening my foundation in Java & C, exploring Data Structures & Algorithms, and diving deeper into electronics & IoT projects. More coming soon! 🚀</p>
+      <div class="project-tags">
+        <span class="tag">Java</span>
+        <span class="tag">C</span>
+        <span class="tag">DSA</span>
+        <span class="tag">IoT</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-label reveal">Get In Touch</div>
+    <h2 class="reveal">Let's Work Together</h2>
+    <p class="contact-sub reveal">Main abhi apni tech journey ke shuruaat mein hoon — collaborations, guidance, aur internship opportunities ke liye hamesha available hoon! 😊</p>
+    <a href="mailto:lata10march@gmail.com" class="contact-email reveal">lata10march@gmail.com</a>
+    <div class="social-row reveal">
+      <a href="https://www.linkedin.com/in/lata-a2a5583a8" target="_blank" class="social-link">💼 LinkedIn</a>
+      <a href="#" class="social-link">🐙 GitHub</a>
+      <a href="#" class="social-link">📄 Resume</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Lata. Built with passion ✦ GBU CSE</span>
+  <a href="#hero">Back to top ↑</a>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Active nav link
+  const sections = document.querySelectorAll('section');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 200) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === `#${current}` ? 'var(--accent)' : '';
+    });
+  });
+</script>
+</body>
+</html>
